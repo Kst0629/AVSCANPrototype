@@ -1,0 +1,1 @@
+pe.blobfish.barcode.BarcodeCapturedListener
