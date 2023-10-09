@@ -4,7 +4,12 @@
  */
 package AVSCAN;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.Code128Writer;
+import com.mycompany.barcodegenerationprototype.BarcodeGenerationPrototype;
 import java.awt.event.KeyEvent;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 
@@ -13,7 +18,8 @@ import javax.swing.JLabel;
  * @author dmitr
  */
 public class ScanBarcode extends javax.swing.JFrame {
-
+    private BitMatrix matrix;
+    private String randCode;
     //private ArrayList<Data> items;// = new ArrayList<>();
     /**
      * Creates new form ScanBarcode
@@ -33,6 +39,8 @@ public class ScanBarcode extends javax.swing.JFrame {
 
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        barcodeDisplay = new javax.swing.JLabel();
+        generateBarcode = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,28 +52,38 @@ public class ScanBarcode extends javax.swing.JFrame {
 
         jLabel1.setText("Scanned Barcode");
 
+        generateBarcode.setText("Generate");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(barcodeDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(132, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(generateBarcode)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(barcodeDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(29, 29, 29)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(39, 39, 39)
+                .addComponent(generateBarcode)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -88,7 +106,23 @@ public class ScanBarcode extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jTextField1KeyPressed
-
+    
+    private void generateBarcode(java.awt.event.KeyEvent evt){
+            BarcodeGenerationPrototype generator = new BarcodeGenerationPrototype();// this object calls the functions from the other java file. 
+            randCode = generator.randomCode();
+//        String path = "/Users/vince-kong/Documents/Barcodes/barcode.jpg";
+    Code128Writer cWriter = new Code128Writer();
+        try{
+            matrix = cWriter.encode(randCode, BarcodeFormat.CODE_128, 500, 200);
+            Icon icon = generator.convertBarcode(matrix); // Call the method on 'generator'
+            barcodeDisplay.setIcon(icon);  
+            
+        }  catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "There was an error while generating!");
+        } 
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -117,8 +151,6 @@ public class ScanBarcode extends javax.swing.JFrame {
         }
         //</editor-fold>
         
-        
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -128,6 +160,8 @@ public class ScanBarcode extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel barcodeDisplay;
+    private javax.swing.JButton generateBarcode;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

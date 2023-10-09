@@ -10,6 +10,18 @@
 <project name="Scanner" default="default" basedir=".">
     <description>Builds, tests, and runs the project Scanner.</description>
     <import file="nbproject/build-impl.xml"/>
+<!--    <dependencies>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+    </dependencies>-->
     <!--
 
     There exist several targets which are by default empty and which can be 
